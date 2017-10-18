@@ -1,0 +1,36 @@
+CREATE DATABASE IF NOT EXISTS ssm DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
+
+USE ssm;
+
+CREATE TABLE `book` (
+  `id` BIGINT(20) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  -- custom column start
+  `name` VARCHAR(100) NOT NULL,
+  `amount` INT NOT NULL,
+  -- custom column end
+  `is_deleted` TINYINT(1) NOT NULL DEFAULT 0,
+  `gmt_create` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `gmt_modified` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8;
+
+INSERT INTO `book` (`id`, `name`, `amount`)
+VALUES
+  (1000, 'Java', 10),
+  (1001, 'Spring', 10),
+  (1002, 'Spring MVC', 10),
+  (1003, 'My Batis', 10);
+
+
+CREATE TABLE `appointment` (
+  -- `id` BIGINT(20) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  -- custom column start
+  `book_id` BIGINT(20) NOT NULL,
+  `student_id` BIGINT(20) NOT NULL,
+  `appoint_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`book_id`, `student_id`),
+  INDEX `idx_appoint_time` (`appoint_time`),
+  -- custom column end
+  `is_deleted` TINYINT(1) NOT NULL DEFAULT 0,
+  `gmt_create` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `gmt_modified` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
